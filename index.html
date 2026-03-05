@@ -38,9 +38,9 @@
     padding: 20px;
   }
 
-  /* 👇 关键修改：所有设备都强制一行4张 */
+  /* 强制一行4张，所有设备通用 */
   .card-item {
-    width: calc(25% - 9px); /* 4列布局，完美适配12px间距 */
+    width: calc(25% - 9px);
     border: 1px solid #eee;
     border-radius: 8px;
     overflow: hidden;
@@ -56,7 +56,7 @@
 
   .card-item img {
     width: 100%;
-    height: auto; /* 高度自适应，保持图片比例 */
+    height: auto;
     display: block;
   }
 
@@ -109,7 +109,8 @@ const container = document.getElementById('cardContainer');
 const loadingTip = document.getElementById('loadingTip');
 const previewModal = document.getElementById('previewModal');
 const previewImg = document.getElementById('previewImg');
-const total = 300;
+// 关键修改：将总数从300改为100
+const total = 100;
 const batchSize = 50;
 
 function openModal(src) {
@@ -131,6 +132,7 @@ function checkImage(src) {
     img.onload = () => resolve(true);
     img.onerror = () => resolve(false);
     img.src = src;
+    // 5秒超时，避免缺失图片拖慢加载
     setTimeout(() => resolve(false), 5000);
   });
 }
@@ -156,7 +158,7 @@ async function loadCardsInBatches() {
     await new Promise(resolve => setTimeout(resolve, 0));
   }
 
-  loadingTip.textContent = `共加载 ${loadedCount} 张海报`;
+  loadingTip.textContent = `共加载 ${loadedCount} 张海报（共检测100张）`;
   setTimeout(() => { loadingTip.style.display = 'none'; }, 1000);
 }
 
